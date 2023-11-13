@@ -2,9 +2,10 @@
 {% if messages %}
 <!-- messages pop up logic -->
 
-    <div class="messages">
-        {% for message in messages %}
-            <div {% if message.tags %} class="alert alert-sm alert-{{ message.tags }} text-center"{% endif %} style="border-radius: 25px;">{{ message }}</div>
-        {% endfor %}
-    </div>
+<div class="messages">
+  {% for message in messages %}
+  <div {% if message.tags %} class="alert alert-sm alert-{{ message.tags }} text-center" {% endif %}
+    style="border-radius: 25px;">{{ message }}</div>
+  {% endfor %}
+</div>
 {% endif %}

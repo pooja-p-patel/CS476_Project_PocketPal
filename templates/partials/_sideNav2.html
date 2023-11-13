@@ -1,70 +1,72 @@
 {% load static %}
 
 <!-- Student Nav bar -->
-
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'dashboard' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal" width="60" height="40"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a href="{% url 'dashboard' %}" class="nav-link link-dark">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'add_income_source'%}" class="nav-link">Accounts</a>
-          </li>
-          <li class="nav-item">
-            <a href="{%url 'expense_page'%}" class="nav-link">Expense</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'income' %}" class="nav-link">Income</a>
-          </li>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Reports
-            </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'expense_summary' %}">Account report</a></li>
-                <li><a class="dropdown-item" href="{% url 'expense_summary_category' %}">Category report</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Advicing
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'ask_advice'%}">Advice Opt-in</a></li>
-                <li><a class="dropdown-item" href="{% url 'check_advice'%}">Check Advice</a></li>
-              </ul>
-            </li>
-          </ul>
-        </ul>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal"
+        width="60" height="40"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="{% url 'dashboard' %}" class="nav-link link-dark">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'add_income_source'%}" class="nav-link">Accounts</a>
+        </li>
+        <li class="nav-item">
+          <a href="{%url 'expense_page'%}" class="nav-link">Expense</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'income' %}" class="nav-link">Income</a>
+        </li>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{% static 'image/walletbg.png' %}" width="37">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu">
-              <li>
-                <form action="{% url 'logout' %}" method="POST">
-                  {% csrf_token %}
-                  <!-- cross site request forgery -->
-                  <button class="dropdown-item" type="submit" >Sign out</button>
-              </form>
-              </li>
+            <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Reports
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'expense_summary' %}">Account report</a></li>
+              <li><a class="dropdown-item" href="{% url 'expense_summary_category' %}">Category report</a></li>
             </ul>
           </li>
         </ul>
-      </div>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Advicing
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'ask_advice'%}">Advice Opt-in</a></li>
+              <li><a class="dropdown-item" href="{% url 'check_advice'%}">Check Advice</a></li>
+            </ul>
+          </li>
+        </ul>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'image/walletbg.png' %}" width="37">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu">
+            <li>
+              <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <!-- cross site request forgery -->
+                <button class="dropdown-item" type="submit">Sign out</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </nav>
-  <div class="mr-5 ml-5"><div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div></div>
+  </div>
+</nav>
+<div class="mr-5 ml-5">
+  <div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div>
+</div>
