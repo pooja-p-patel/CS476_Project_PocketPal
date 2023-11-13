@@ -1,8 +1,14 @@
 from django.contrib.auth.models import User
+# import User model
 import re
+# import re for regular expressions
 from django.views import View
+# import views
 from django.shortcuts import render,redirect
+# import render function and redirect function
 from django.contrib import messages, auth
+# The line `from django.contrib import messages, auth` is importing the `messages` and `auth` modules
+# from the `django.contrib` package.
 
 
 # The `RegistrationView` class handles the registration process for a user, including validating input
