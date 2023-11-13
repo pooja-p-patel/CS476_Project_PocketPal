@@ -66,6 +66,7 @@
         </div>
         {% if not flag %}
         <form action="{% url 'ask_advice' %}" method="POST">
+                  <!-- cross site request forgery -->
           {% csrf_token %}
           <div class="col-12 text-center">
             <button id ="buttonid" onclick="buttonidDisable(this)" class="btn btn-primary btn-req" type="submit" value="Submit" name="submit">Submit</button>

@@ -14,6 +14,7 @@
           <div>
             <form action="{% url 'edit_comment' comment.id %}" method="POST">
               {% csrf_token %}
+                  <!-- cross site request forgery -->
               <div class="form-outline mb-4">
                 <label for="acc_name">Comment Title</label>
                 <input type = "text" name="name" value = "{{values.name}}" id="acc_name" class="form-control" required />
