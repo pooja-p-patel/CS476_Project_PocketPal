@@ -1,3 +1,4 @@
+<!-- loaded static file -->
 {% load static %}
 
 <!-- index page -->
@@ -22,20 +23,24 @@
       background-color: transparent;
       box-shadow: none;
     }
+
     .dropdown-item:active {
       background-color: #f0f0f0;
       color: #000;
     }
+
     .dropdown-item:focus {
       outline: none;
     }
+
     .dropdown-toggle:active {
       outline: none;
     }
   </style>
   <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal" width="60" height="40"></a>
+      <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal"
+          width="60" height="40"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -74,7 +79,9 @@
       </div>
     </div>
   </nav>
-  <div class="mr-5 ml-5"><div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div></div>
+  <div class="mr-5 ml-5">
+    <div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div>
+  </div>
   <div class="container">
     <section class="text-center text-lg-start">
       <style>
@@ -107,7 +114,8 @@
             </div>
           </div>
           <div class="col-lg-6 mb-5 mb-lg-0">
-            <img src="{% static 'image/Welcome.jpg' %}" class="w-100 rounded-4 shadow-4" width="500" height="500" alt="Welcome" />
+            <img src="{% static 'image/Welcome.jpg' %}" class="w-100 rounded-4 shadow-4" width="500" height="500"
+              alt="Welcome" />
           </div>
         </div>
       </div>
@@ -117,6 +125,7 @@
         .cascading-left {
           margin-left: -50px;
         }
+
         @media (max-width: 991.98px) {
           .cascading-left {
             margin-left: 0;
@@ -126,7 +135,8 @@
       <div class="container py-4">
         <div class="row g-0 align-items-center">
           <div class="col-lg-6 mb-5 mb-lg-0">
-            <img src="{% static 'image/AboutUs.png' %}" class="w-100 rounded-4 shadow-4" width="500" height="500" alt="About Us" />
+            <img src="{% static 'image/AboutUs.png' %}" class="w-100 rounded-4 shadow-4" width="500" height="500"
+              alt="About Us" />
           </div>
           <div class="col-lg-6 mb-5 mb-lg-0">
             <div class="card cascading-left" style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
@@ -147,6 +157,7 @@
         .cascading-right {
           margin-right: -50px;
         }
+
         @media (max-width: 991.98px) {
           .cascading-right {
             margin-right: 0;
@@ -166,7 +177,8 @@
             </div>
           </div>
           <div class="col-lg-6 mb-5 mb-lg-0">
-            <img src="{% static 'image/ContactUs.png' %}" class="w-100 rounded-4 shadow-4" width="500" height="400" alt="Contact Us" />
+            <img src="{% static 'image/ContactUs.png' %}" class="w-100 rounded-4 shadow-4" width="500" height="400"
+              alt="Contact Us" />
           </div>
         </div>
       </div>

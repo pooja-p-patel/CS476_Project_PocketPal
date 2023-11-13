@@ -1,10 +1,10 @@
 {% load static %}
 
 <!-- Admin nav bar -->
-
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'advisor_dashboard' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal" width="60" height="40"></a>
+    <a class="navbar-brand" href="{% url 'advisor_dashboard' %}"><img src="{% static 'image/LOGO.png' %}"
+        alt="PocketPal" width="60" height="40"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,9 +26,9 @@
             <li>
               <form action="{% url 'logout' %}" method="POST">
                 {% csrf_token %}
-                  <!-- cross site request forgery -->
-                <button class="dropdown-item" type="submit" >Sign out</button>
-            </form>
+                <!-- cross site request forgery -->
+                <button class="dropdown-item" type="submit">Sign out</button>
+              </form>
             </li>
           </ul>
         </li>
@@ -36,4 +36,6 @@
     </div>
   </div>
 </nav>
-<div class="mr-5 ml-5"><div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div></div>
+<div class="mr-5 ml-5">
+  <div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div>
+</div>
