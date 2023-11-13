@@ -45,12 +45,15 @@
               <p class="fs-4 text-start">New Requests</p>
             </div>
           </div>
+
+          <!-- if flag is false for student user then no request is submitted -->
           {% if my_flag.my_flag == False %}
           <div class="card-body">
             <p class="card-text">Hello! Hope you're having a great time</p>
             <p class="card-text">Sorry, but you don't have any requests to be advised</p>
           </div>
 
+          <!-- if flag is true for student user then show user analytics -->
           {% else %}
           <div class="col-12">
             <div class="table-responsive">
@@ -61,6 +64,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- show user details for users whose flag for request is activated -->
                 {% for my_flag in flagged_users %}
                   <tr>
                     <th scope="row">
@@ -81,6 +85,7 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
   <script src="{% static 'js/dashboard.js' %}"></script>
+  <!-- js -->
   
 </body>
 
