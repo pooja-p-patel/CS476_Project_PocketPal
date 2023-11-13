@@ -1,20 +1,27 @@
-from django.shortcuts import render
 from django.shortcuts import render,redirect
+# import render and redirect functions
 from django.contrib.auth.decorators import login_required
+# import login_required for mandatory login
 from .models import Expense, Category
+# from Expense.models import Expense and Category class
 from Income.models import Source
+# from Source.models import Source class
 from django.contrib import messages
+# import messages for showing message notifications
 from django.utils.timezone import localtime
-from django.contrib.auth.models import User
+# from django.utils.timezone import localtime
 from django.core.paginator import Paginator
-from django.http import HttpResponse
-from django.db.models import Sum
+# import paginator object for pagination 
 import datetime
+# import datetime module
 from datetime import datetime as datetime_custom
+# import datetime and use an alias datetime_custome 
 from django.db.models import Q
-from django.http import JsonResponse
+# import Q object to merge two querysets such as using & operator
 
 
+# function to show expense views
+# login required
 @login_required(login_url='login')
 def expense_page(request):
 
@@ -28,12 +35,14 @@ def expense_page(request):
     ).order_by('-date')
 
     try:
-
+        # code for pagination
+        #  code for if the date for date from is empty while request method is get
         if 'date_from' in request.GET and request.GET['date_from'] != '':
             date_from = datetime_custom.strptime(request.GET['date_from'],'%Y-%m-%d')
             filter_context['date_from'] = request.GET['date_from']
             date_from_html = request.GET['date_from']
 
+        #  code for if the date for date to is empty while request method is get
             if 'date_to' in request.GET and request.GET['date_to'] != '':
 
                 date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
@@ -45,6 +54,7 @@ def expense_page(request):
                     Q(date__lte = date_to)
                 ).order_by('-date')
 
+            # else get expenses from the dates greater than from the comment dated for
             else:
                 expenses = expenses.filter(
                     date__gte = date_from
@@ -52,6 +62,7 @@ def expense_page(request):
 
         elif 'date_to' in request.GET and request.GET['date_to'] != '':
 
+            # else get expenses from dates lower than from the comment dated (date to)
             date_to_html = request.GET['date_to']
             date_to = datetime_custom.strptime(request.GET['date_to'],'%Y-%m-%d')
             filter_context['date_from'] = request.GET['date_to']
@@ -60,14 +71,18 @@ def expense_page(request):
             ).order_by('-date')
     
     except:
+        # sends an error message that something is wrong
         messages.error(request,'Something went wrong')
         return redirect('expense_page')
     
+    # store the data value into the variables
     base_url = f'?date_from={date_from_html}&date_to={date_to_html}&'
     paginator = Paginator(expenses,5)
     page_number = request.GET.get('page')
     page_expenses = Paginator.get_page(paginator,page_number)
 
+    # render the templates by sending the variable values to the template for front-end view logic
+    # sent values for pagination and expenses
     return render(request,'expense/expense.html',{
         'page_expenses':page_expenses,
         'expenses':expenses,
