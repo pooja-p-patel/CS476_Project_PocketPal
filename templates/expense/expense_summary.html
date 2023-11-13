@@ -80,6 +80,7 @@
           <div class="form-group" style="padding-bottom: 20px;">
             <form id="task-form" method="POST">
               {% csrf_token %}
+                  <!-- cross site request forgery -->
               <div class="form-group">
                 <div class="dropdown mb-4">
                   <div class="form-control btn btn-primary btn-sub dropdown-toggle">
