@@ -1,17 +1,25 @@
 from django.shortcuts import render, redirect
+# import render and redirect functions
 from .models import Source,Income
-from django.contrib.auth.models import User
+# from Income.models import Source and Income class
 from django.contrib.auth.decorators import login_required
+# import login_required for mandatory login
 from django.contrib import messages
+# import messages for showing message notifications
 from django.core.paginator import Paginator
+# import paginator object for pagination 
 from django.utils.timezone import localtime
-from django.http import HttpResponse
-from django.http import JsonResponse
-from django.db.models import Sum
+# from django.utils.timezone import localtime
 import datetime
+# import datetime module
 from datetime import datetime as datetime_custom
+# import datetime and use an alias datetime_custome 
 from django.db.models import Q
+# import Q object to merge two querysets such as using & operator
 
+
+# function for viewing all incomes
+# login required
 @login_required(login_url='login')
 def income_page(request):
 
@@ -72,6 +80,10 @@ def income_page(request):
         'base_url':base_url
     })
 
+
+
+# function to add income
+# login required
 @login_required(login_url='login')
 def add_income(request):
 
@@ -131,6 +143,10 @@ def add_income(request):
         messages.error(request,'Please add a income source first.')
         return redirect('add_income_source')
 
+
+
+# function to add income source
+# login required
 @login_required(login_url='login')
 def add_income_source(request):
 
@@ -166,6 +182,9 @@ def add_income_source(request):
             'create':True
         })
 
+
+# function to edit income source
+# login required
 @login_required(login_url='login')
 def edit_income_source(request,id):
 
@@ -212,6 +231,9 @@ def edit_income_source(request,id):
         messages.success(request,'Income Source Updated')
         return redirect('add_income_source')
 
+
+# function to delete income source
+# login required
 @login_required(login_url='login')
 def delete_income_source(request,id):
 
@@ -230,6 +252,10 @@ def delete_income_source(request,id):
     messages.error(request,'Please try again')
     return redirect('add_income_source')
 
+
+
+# function to edit income
+# login required
 @login_required(login_url='login')
 def edit_income(request,id):
     
@@ -294,6 +320,9 @@ def edit_income(request,id):
         messages.success(request,'Income Updated Successfully')
         return redirect('income')
 
+
+# function to delete income
+# login required
 @login_required(login_url='login')
 def delete_income(request,id):
 
@@ -311,50 +340,3 @@ def delete_income(request,id):
     else:
         messages.error(request,'Something went Wrong. Please Try Again')
         return redirect('income')
-
-@login_required(login_url='login')
-def income_page_sort(request):
-
-    incomes =  Income.objects.filter(user=request.user)
-    base_url = ''
-
-    try:
-    
-        if 'amount_sort' in request.GET and request.GET.get('amount_sort'):
-            base_url = f'?amount_sort={request.GET.get("amount_sort",2)}&'
-            if int(request.GET.get('amount_sort',2)) == 1:
-                incomes = incomes.order_by('-amount')
-            elif int(request.GET.get('amount_sort',2)) == 2:
-                incomes = incomes.order_by('amount')
-        
-        if 'date_sort' in request.GET and request.GET.get('date_sort'):
-            base_url = f'?date_sort={request.GET.get("date_sort",2)}&'
-            if int(request.GET.get('date_sort',2)) == 1:
-                incomes = incomes.order_by('-date')
-            elif int(request.GET.get('date_sort',2)) == 2:
-                incomes = incomes.order_by('date')
-
-    except:
-        messages.error(request,'Something went wrong')
-        return redirect('income')
-    
-    paginator = Paginator(incomes,5)
-    page_number = request.GET.get('page')
-    page_incomes = Paginator.get_page(paginator,page_number)
-
-
-    return render(request,'income/income.html',{
-        'page_incomes':page_incomes,
-        'incomes':incomes,
-        'base_url':base_url
-    })
-
-
-# @login_required(login_url= 'login')
-# def income_summary_data(request):
-#     income = Income.objects.filter(user = request.user)
-
-#     context = {
-#         'income': income,
-#     }
-#     return render(request, 'income/income_summary.html', context)
