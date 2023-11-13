@@ -26,7 +26,7 @@
                   <div class="form-outline mb-4">
                     <label for="">Category</label>
                     <select class="form-select" id="accountSelect1" name="category">
-                      <option value="select" disabled>Select a category</option>
+                      <option selected value="select" disabled>Select a category</option>
                       {% for category in categories %}
                       <option name = "category" value="{{category.name}}">{{category.name}}</option>
                       {% endfor %}
@@ -35,7 +35,7 @@
                   <div class="form-outline mb-4">
                     <label for="">Classify Accounts</label>
                     <select class="form-select" id="SourceSelect" name="source">
-                      <option value="select" disabled>Select an account</option>
+                      <option selected value="select" disabled>Select an account</option>
                       {% for source in sources %}
                       <option name = "source" value="{{source.source}}">{{source.source}}</option>
                       {% endfor %}

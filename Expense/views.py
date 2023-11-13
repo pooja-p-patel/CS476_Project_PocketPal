@@ -104,9 +104,11 @@ def add_expense(request):
     }
 
 
+    # render add_expense page when it is a get request
     if request.method == 'GET':
         return render(request,'expense/add_expense.html',context)
 
+    # store the form input values for post request
     if request.method == 'POST':
         amount = request.POST.get('amount','')
         description = request.POST.get('description','')
@@ -114,10 +116,12 @@ def add_expense(request):
         source = request.POST.get('source', '')
         date = request.POST.get('expense_date','')
 
+        # display an error is the field is empty
         if amount== '':
             messages.error(request,'Amount cannot be empty')
             return render(request,'expense/add_expense.html', context)
         
+        # amount is stored in float
         amount = float(amount)
         if amount <= 0:
             messages.error(request,'Amount should be greater than zero')
@@ -135,13 +139,18 @@ def add_expense(request):
             messages.error(request,'Expense Account cannot be empty')
             return render(request,'expense/add_expense.html', context)
 
+        # add localtime if date is not added
         if date == '':
             date = localtime()
 
+        # store the created at time for the expense instance
         created_at = datetime.datetime.now().strftime ("%Y-%m-%d %H:%M:%S")
 
+        # get the category names from the category objects
         category_obj = Category.objects.get(name =category)
+        # get the source name from the source/account objects
         source_obj = Source.objects.get(source = source)
+        # create expense object and save it
         Expense.objects.create(
             user=request.user,
             amount=amount,
@@ -152,7 +161,9 @@ def add_expense(request):
             created_at = created_at,
         ).save()
 
+        # show success message for expense saved
         messages.success(request,'Expense Saved Successfully')
+        # redirect to the expense page view
         return redirect('expense_page')
     
 
