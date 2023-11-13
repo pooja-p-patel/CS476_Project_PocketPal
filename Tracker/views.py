@@ -1,23 +1,51 @@
 from django.shortcuts import render
+# import render function
 from django.contrib.auth.decorators import login_required
+# import login_required for mandatory login
 from Expense.models import Expense
+# import expense class from Expense.models
 from django.contrib.auth.models import User
-from advisor.models import Comment
+# import User model
 from Income.models import Income
+# from Income.models import Income class
 from advise.models import Student_Flag
+# from advise.models import Student_Flag class
 from django.contrib import messages
+# import messages for showing message notifications
 from datetime import timedelta
+# from datetime import timedelta
 from django.db.models import Sum
-from django.http import HttpResponse
+# import sum 
 from django.utils.timezone import localtime
+# `# import localtime` is importing the `localtime` function from the `django.utils.timezone` module.
+# This function is used to get the current date and time in the local timezone.
 import datetime
+# The line `import datetime` is importing the `datetime` module from the Python standard library. This
+# module provides classes for working with dates and times. In this code, the `datetime` module is
+# used to perform various date and time calculations and operations.
 
+
+
+# login required
 @login_required(login_url='login')
 def dashboard(request):
+    """
+    The `dashboard` function retrieves and displays various financial data for the current user,
+    including expenses and incomes for today, as well as totals and counts for the current day, month,
+    week, and year.
+    
+    :param request: The request object represents the HTTP request that is made to the server. It
+    contains information such as the user making the request, the method used (GET or POST), and any
+    data sent with the request
+    :return: a rendered HTML template called 'dashboard2.html' with various data passed as context
+    variables. The data includes expenses and incomes for today, the total amount spent today, the count
+    of expenses made today, the total amount spent this month, the count of expenses made this month,
+    the total amount spent this year, the count of expenses made this year, the total amount spent in
+    the
+    """
     today_date_time = localtime()
     today_date = datetime.date.today()
     week_date_time = today_date - timedelta(days=7) 
-    # week_date_time = today_date - timedelta(days=30)
     start_today_data = today_date_time.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     end_today_data = today_date_time.replace(day=30 ,hour=23, minute=59, second=59, microsecond=999999)
 
@@ -56,8 +84,22 @@ def dashboard(request):
     })
 
 
+
 @login_required(login_url='login')
-def view_dashboard(request,pk):
+def view_dashboard(request,pk): 
+    """
+    The `view_dashboard` function retrieves financial data for a student user 
+    and renders it in an admin dashboard template.
+    
+    :param request: The request object represents the HTTP request that was made by the user
+    :param pk: The parameter "pk" is the primary key of a user. It is used to retrieve the user object
+    from the database
+    :return: a rendered HTML template called 'view_dashboard.html' with various data passed as context
+    variables. The data includes expenses and incomes for today, the total amount spent today, the count
+    of expenses made today, the total amount spent this month, the count of expenses made this month,
+    the total amount spent this year, the count of expenses made this year, the total amount spent in
+    the
+    """
     today_date_time = localtime()
     today_date = datetime.date.today()
     week_date_time = today_date - timedelta(days=7) 
@@ -96,6 +138,5 @@ def view_dashboard(request,pk):
         'spent_week':spent_week['amount__sum'],
         'spent_week_count':spent_week_count,
         'user' : user,
-        # 'comments' : comments,
     })
 

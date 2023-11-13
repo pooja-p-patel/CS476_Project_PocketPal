@@ -1,18 +1,12 @@
-# from django.contrib.auth import get_user_model
-# from rest_framework.views import APIView
-# from .serializers import UserDataSerializers
-# from rest_framework.response import Response
-# from rest_framework import permissions, status
-
 from django.contrib.auth.models import User
 import re
 from django.views import View
 from django.shortcuts import render,redirect
 from django.contrib import messages, auth
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
 
 
+# The `RegistrationView` class handles the registration process for a user, including validating input
+# fields and creating a new user account.
 class RegistrationView(View):
 
     def get(self, request):
@@ -38,6 +32,13 @@ class RegistrationView(View):
             messages.error(request,"All Fields are required")
             return render(request,'user/register_part.html',context=context)
 
+        # The code block you provided is handling the registration process for a user. It checks if
+        # the provided username and email do not already exist in the database. If they don't exist,
+        # it checks if the provided passwords match and meet certain criteria (minimum length of 8
+        # characters and containing a combination of uppercase, lowercase characters, and numbers). If
+        # the passwords meet the criteria, it creates a new user account with the provided username,
+        # email, first name, and last name. The user's password is set and saved securely. Finally, a
+        # success message is displayed and the user is redirected to the login page.
         if not User.objects.filter(username=username).exists():
             if  not User.objects.filter(email=email).exists():
                 if password != password2:
@@ -62,6 +63,9 @@ class RegistrationView(View):
                 messages.success(request,'Student Account Created Succesfully.')
                 return redirect('login')
             else:
+                # The code `messages.error(request,'Email Already exists')` adds an error message to
+                # the request object. This message will be displayed to the user when the page is
+                # rendered.
                 messages.error(request,'Email Already exists')
                 return render(request,'user/register_part.html',context=context)
         else:
@@ -70,6 +74,8 @@ class RegistrationView(View):
         
 
 
+# The above class is a login view in Python that handles the login functionality, including validation
+# and authentication.
 class LoginView(View):
 
     def get(self,request):
@@ -83,6 +89,10 @@ class LoginView(View):
             "username":username,
         }
 
+       # The code block is checking if the username and password fields are empty. If either of them
+       # is empty, it adds an error message to the request object using the `messages.error()`
+       # function and renders the login page again with the error message displayed. This ensures that
+       # the user is prompted to enter both the username and password before attempting to log in.
         if username == '':
             messages.error(request,"Please Enter username")
             return render(request,'user/login_part.html',context=context)
@@ -91,6 +101,7 @@ class LoginView(View):
             messages.error(request,"Please Enter Password")
             return render(request,'user/login_part.html',context=context)
 
+        # The code block is handling the login functionality.
         if username and password:
             user = auth.authenticate(username=username,password=password)
 
@@ -112,6 +123,7 @@ class LoginView(View):
 
 
     
+# The above class is a view for handling the login functionality for an admin user.
 class AdminLoginView(View):
 
     def get(self,request):
@@ -125,6 +137,11 @@ class AdminLoginView(View):
             "username":username,
         }
 
+        # The code block is checking if the username and password fields are empty. If either of them
+        # is empty, it adds an error message to the request object using the `messages.error()`
+        # function and renders the login page again with the error message displayed. This ensures
+        # that the user is prompted to enter both the username and password before attempting to log
+        # in.
         if username == '':
             messages.error(request,"Please Enter username")
             return render(request,'user/login_part.html',context=context)
@@ -133,6 +150,7 @@ class AdminLoginView(View):
             messages.error(request,"Please Enter Password")
             return render(request,'user/login_part.html',context=context)
 
+        # The code block is handling the login functionality.
         if username and password:
             user = auth.authenticate(username=username,password=password)
 
@@ -153,92 +171,10 @@ class AdminLoginView(View):
             return render(request,'user/login_part.html',context=context)
 
 
+# The `LogoutView` class is a view in a Python web application that handles the logout functionality
+# by logging out the user, displaying a success message, and redirecting to the index page.
 class LogoutView(View):
 	def post(self,request):
 		auth.logout(request)
 		messages.success(request,'Logged Out')
 		return redirect('index')
-
-
-
-# User = get_user_model()
-
-# class RegistrationView(APIView):
-#     permission_classes = (permissions.AllowAny, )
-
-#     def post(self, request):
-#         try:
-#             data = request.data
-#             firstName = data['firstName']
-#             lastName = data['lastName']
-#             email = data['email']
-#             email = email.lower()
-#             password = data['password']
-#             confirmPassword = data['confirmPassword']
-#             is_student = data['is_student']
-
-#             if is_student == 'True':
-#                 is_student = True
-#             else:
-#                 is_student = False
-
-#             if password == confirmPassword:
-#                 if len(password) >= 8:
-#                     if not User.objects.filter(email=email).exists():
-#                         if not is_student:
-#                             User.objects.create_user(firstName=firstName, lastName=lastName, email=email,password=password)
-
-#                             return Response(
-#                                 {'success': 'Advisor account created successfully'},
-#                                 status = status.HTTP_201_CREATED
-#                             )
-#                         else:
-#                             User.objects.create_student(firstName=firstName, lastName=lastName, email=email,password=password)
-
-#                             return Response(
-#                                 {'success': 'Student account created successfully'},
-#                                 status = status.HTTP_201_CREATED
-#                             )    
-#                     else:
-#                         return Response(
-#                             {'error': 'User with this email already exist!' },
-#                             status = status.HTTP_400_BAD_REQUEST
-#                         )
-                    
-#                 else:
-#                     return Response(
-#                         {'error': 'Passwords must be of eight characters or more' },
-#                         status = status.HTTP_400_BAD_REQUEST
-#                     )
-
-#             else:
-#                 return Response(
-#                     {'error': 'Passwords do not match, please re-enter password' },
-#                     status = status.HTTP_400_BAD_REQUEST
-#                 )
-
-#         except:
-#             return Response(
-#                 {'error': 'Something went wrong while registering the user'},
-#                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
-#             )
-        
-
-
-
-# class GetUserView(APIView):
-#     def get(self, request, format = None):
-#         try:
-#             user = request.user
-#             user = UserDataSerializers(user)
-
-#             return Response(
-#                 {'user': user.data},
-#                 status = status.HTTP_200_OK
-#             )
-
-#         except:
-#             return Response(
-#                 {'error': 'Something went wrong while getting user details'},
-#                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
-#             )
