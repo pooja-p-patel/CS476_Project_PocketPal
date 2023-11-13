@@ -1,3 +1,4 @@
+<!-- loaded static file -->\
 {% load static %}
 
 <!DOCTYPE html>
@@ -9,63 +10,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Account Report</title>
   <link rel="shortcut icon" href="{% static 'image/walletbg.png' %}">
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
 <body>
   <style>
-      /* Change this to the color you want */
-      .dropdown-menu:active {
-        background-color: transparent;
-        box-shadow: none;
-      }
+    /* For active state of dropdown menu */
+    .dropdown-menu:active {
+      background-color: transparent;
+      box-shadow: none;
+    }
 
-      .dropdown-item:active {
-        background-color: #f0f0f0;
-        color: #000;
-      }
+    /* For active state of dropdown item */
+    .dropdown-item:active {
+      background-color: #f0f0f0;
+      color: #000;
+    }
 
-      .dropdown-item:focus {
-        outline: none;
-      }
+    /* Remove outline when dropdown item is focused */
+    .dropdown-item:focus {
+      outline: none;
+    }
 
-      .dropdown-toggle:active {
-        outline: none;
-      }
-      .btn-sub {
-        background-color: #fff;
-        color: #000;
-        border: 1px solid #451952;
-        width: 100%;
-      }
+    /* Remove outline when dropdown toggle is active */
+    .dropdown-toggle:active {
+      outline: none;
+    }
 
-      .btn-sub:hover {
-        background-color: #F5F5F5;
-        color: #000;
-        border: 1px solid #742c8a;
-      }
+    /* Style for the submit button*/
+    .btn-sub {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #451952;
+      width: 100%;
+    }
 
-      .btn-info {
-        background-color: #451952;
-        color: #ffffff;
-        border: 1px solid #451952;
-        width: 100%;
-      }
+    /* Hover effect for the submit button */
+    .btn-sub:hover {
+      background-color: #F5F5F5;
+      color: #000;
+      border: 1px solid #742c8a;
+    }
 
-      .btn-info:hover {
-        background-color: #742c8a;
-        color: #ffffff;
-        border: 1px solid #742c8a;
-      }
+    /* Style for the info button*/
+    .btn-info {
+      background-color: #451952;
+      color: #ffffff;
+      border: 1px solid #451952;
+      width: 100%;
+    }
 
-      .btn-info.btn-primary:active {
-        background-color: #742c8a;
-        color: #ffffff;
-        border: 1px solid #742c8a;
-      }
+    /* Hover effect for the info button */
+    .btn-info:hover {
+      background-color: #742c8a;
+      color: #ffffff;
+      border: 1px solid #742c8a;
+    }
+
+    /* Active state for the info button*/
+    .btn-info.btn-primary:active {
+      background-color: #742c8a;
+      color: #ffffff;
+      border: 1px solid #742c8a;
+    }
   </style>
+  <!-- nav bar -->
   {% include "partials/_sideNav2.html" %}
+  <!-- Main content section -->
   <section class="text-center text-lg-start">
     <div class="container py-4">
       <div class="row g-0 align-items-center">
@@ -76,59 +89,68 @@
               <p class="fs-4 text-start">Account Report</p>
             </div>
           </div>
-          </div>
-          <div class="form-group" style="padding-bottom: 20px;">
+        </div>
+        <div class="form-group" style="padding-bottom: 20px;">
           <!-- form to show expense table view categorizing source/account -->
-            <form id="task-form" method="POST">
-              {% csrf_token %}
-                  <!-- cross site request forgery -->
-              <div class="form-group">
-                <div class="dropdown mb-4">
-                  <div class="form-control btn btn-primary btn-sub dropdown-toggle">
-                    <label for="">Account Selection</label>
-                    
-                    <select class="form-control form-control-sm" data-id="{{source.id}}" name="source" data-toggle="dropdown" name="source" id="source">
-                      <option value="select" disabled>Select an account</option>
-                      {% for source in sources %}<option data-id="{{source.id}}" name = "source" id="source" value="{{source.id}}">{{source.source}}</option>{% endfor %}
-                    </select>
-                    
-                  </div>
+          <form id="task-form" method="POST">
+            {% csrf_token %}
+            <!-- cross site request forgery -->
+            <div class="form-group">
+              <div class="dropdown mb-4">
+                <div class="form-control btn btn-primary btn-sub dropdown-toggle">
+                  <label for="">Account Selection</label>
+                  <!-- Select element for account options -->
+                  <select class="form-control form-control-sm" data-id="{{source.id}}" name="source"
+                    data-toggle="dropdown" name="source" id="source">
+                    <!-- Option for default selection -->
+                    <option value="select" disabled>Select an account</option>
+                    <!-- Loop through sources to create options -->
+                    {% for source in sources %}<option data-id="{{source.id}}" name="source" id="source"
+                      value="{{source.id}}">{{source.source}}</option>{% endfor %}
+                  </select>
                 </div>
-              </div> 
-              <div class="text-center">
-                <button type="submit" class="btn btn-info btn-primary mb-4">Submit</button>
               </div>
-            </form>
-            {% if expenses %}
-            <div>
-              <table class="table">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for expense in expenses %} 
-                  <tr>
-                    <th scope="row" id = "expense_amount">{{expense.amount}}</th>
-                    <td id = "expense_category">{{expense.category.name}}</td>
-                    <td id = "expense_description">{{expense.description}}</td>
-                    <td id = "expense_date">{{expense.date}}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
             </div>
-            {% else %}
-            <h5 class="h3 text-black mb-0 text-center">No expenses for this account/source</a></h5>
-            {% endif %}
+            <div class="text-center">
+              <button type="submit" class="btn btn-info btn-primary mb-4">Submit</button>
+            </div>
+          </form>
+          {% if expenses %}
+          <div>
+            <table class="table">
+              <!-- Table header columns -->
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <!-- Table body for expense data -->
+              <tbody>
+                <!-- Loop through expenses to populate table rows -->
+                {% for expense in expenses %}
+                <!-- Table cells with expense data -->
+                <tr>
+                  <th scope="row" id="expense_amount">{{expense.amount}}</th>
+                  <td id="expense_category">{{expense.category.name}}</td>
+                  <td id="expense_description">{{expense.description}}</td>
+                  <td id="expense_date">{{expense.date}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
-         </div> 
+          <!-- Else block for when there are no expenses -->
+          {% else %}
+          <h5 class="h3 text-black mb-0 text-center">No expenses for this account/source</a></h5>
+          {% endif %}
+        </div>
       </div>
+    </div>
   </section>
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
@@ -138,24 +160,24 @@
 <!-- js -->
 
 <!-- ajax -->
-  <script type="text/javascript">
-  $(document).on('submit', '#task-form',function(e){
+<script type="text/javascript">
+  $(document).on('submit', '#task-form', function (e) {
     event.preventDefault();
     $.ajax({
-        type:'POST',
-        url:'{% url "expense_summary" %}',
-        data:{
-            source:$('#source').val(),
-            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-            action: 'post'
-        },
-        success:function(json){
-          console.log("worked!");
-        },
+      type: 'POST',
+      url: '{% url "expense_summary" %}',
+      data: {
+        source: $('#source').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function (json) {
+        console.log("worked!");
+      },
     });
-});
+  });
 
 
-  </script>
+</script>
 
 </html>

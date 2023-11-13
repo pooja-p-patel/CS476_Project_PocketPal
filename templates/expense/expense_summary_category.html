@@ -40,15 +40,18 @@
       outline: none;
     }
   </style>
+  <!-- nav bar -->
   {% include "partials/_sideNav2.html" %}
   <!-- Main Content Section -->
   <section class="text-center text-lg-start">
     <style>
+      /* Style for the select form element */
       select.form-select {
         background-color: transparent;
         color: #000000;
       }
 
+      /* Style for the options within the select element */
       select.form-select option {
         background-color: transparent;
         /* Set the background color of the options */
@@ -56,11 +59,13 @@
         /* Set the text color of the options */
       }
 
+      /* Hover effect for options within the select element */
       select.form-select option:hover {
         background-color: #742c8a;
         color: #ffffff;
       }
 
+      /* Style for the submit button*/
       .btn-sub {
         background-color: #fff;
         color: #000;
@@ -68,12 +73,14 @@
         width: 100%;
       }
 
+      /* Hover effect for the submit button */
       .btn-sub:hover {
         background-color: #F5F5F5;
         color: #000;
         border: 1px solid #742c8a;
       }
 
+      /* Style for the info button*/
       .btn-info {
         background-color: #451952;
         color: #ffffff;
@@ -81,12 +88,14 @@
         width: 100%;
       }
 
+      /* Hover effect for the info button */
       .btn-info:hover {
         background-color: #742c8a;
         color: #ffffff;
         border: 1px solid #742c8a;
       }
 
+      /* Active state for the info button*/
       .btn-info.btn-primary:active {
         background-color: #742c8a;
         color: #ffffff;
@@ -156,7 +165,6 @@
           <h5 class="h3 text-black mb-0 text-center">No expenses for this category</a></h5>
           {% endif %}
         </div>
-
       </div>
     </div>
   </section>
