@@ -6,6 +6,8 @@ from .models import Expense, Category
 import json
 from django.db.models import Q
 
+
+# login required
 @login_required(login_url='login')
 def expense_summary(request):
     today_date = datetime.date.today()
@@ -46,7 +48,7 @@ def expense_summary(request):
 
     def get_expense_category_amount(category):
         amount = 0
-        category = Category.objects.get(user=request.user,name=category)
+        category = Category.objects.get(name=category)
         filtered_by_category = expenses.filter(category=category.id)
         for i in filtered_by_category:
             amount += i.amount

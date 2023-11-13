@@ -90,6 +90,8 @@ def expense_page(request):
         'base_url':base_url
     })
 
+
+# login required
 @login_required(login_url='login')
 def add_expense(request):
 
@@ -154,6 +156,8 @@ def add_expense(request):
         return redirect('expense_page')
     
 
+
+# login required
 @login_required(login_url='login')
 def edit_expense(request,id):
     
@@ -226,6 +230,9 @@ def edit_expense(request,id):
         messages.success(request,'Expense Updated Successfully')
         return redirect('expense_page')
 
+
+
+# login required
 @login_required(login_url='login')
 def delete_expense(request,id):
     
@@ -245,44 +252,9 @@ def delete_expense(request,id):
         return redirect('expense_page')
 
 
+
+# login required
 @login_required(login_url='login')
-def expense_page_sort(request):
-
-    expenses =  Expense.objects.filter(user=request.user)
-    base_url = ''
-
-    try:
-    
-        if 'amount_sort' in request.GET and request.GET.get('amount_sort'):
-            base_url = f'?amount_sort={request.GET.get("amount_sort",2)}&'
-            if int(request.GET.get('amount_sort',2)) == 1:
-                expenses = expenses.order_by('-amount')
-            elif int(request.GET.get('amount_sort',2)) == 2:
-                expenses = expenses.order_by('amount')
-        
-        if 'date_sort' in request.GET and request.GET.get('date_sort'):
-            base_url = f'?date_sort={request.GET.get("date_sort",2)}&'
-            if int(request.GET.get('date_sort',2)) == 1:
-                expenses = expenses.order_by('-date')
-            elif int(request.GET.get('date_sort',2)) == 2:
-                expenses = expenses.order_by('date')
-    
-    except:
-        messages.error(request,'Something went wrong')
-        return redirect('expense')
-
-    paginator = Paginator(expenses,5)
-    page_number = request.GET.get('page')
-    page_expenses = Paginator.get_page(paginator,page_number)
-
-    
-    return render(request,'expense/expense.html',{
-        'page_expenses':page_expenses,
-        'expenses':expenses,
-        'base_url':base_url
-    })
-
-
 def expense_summary(request):
     expenses = Expense.objects.filter(user = request.user)
     sources = Source.objects.filter(user = request.user)
@@ -324,6 +296,10 @@ def expense_summary(request):
             messages.success(request, "No expenses found for this account/source")
             return render(request, 'expense/expense_summary.html', context)
 
+
+
+# login required
+@login_required(login_url='login')
 def expense_summary_category(request):
     expenses = Expense.objects.filter(user = request.user)
     categories = Category.objects.all()
