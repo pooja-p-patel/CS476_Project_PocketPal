@@ -168,6 +168,7 @@ def add_expense(request):
     
 
 
+# function to edit expense
 # login required
 @login_required(login_url='login')
 def edit_expense(request,id):
@@ -179,10 +180,12 @@ def edit_expense(request,id):
         messages.error(request,'Something went Wrong. Please Try Again')
         return redirect('expense')
     
+    # added some validation
     if expense.user != request.user:
         messages.error(request,'Something Went Wrong')
         return redirect('expense')
     
+    # get category and source objects value
     categories = Category.objects.all().exclude(id = expense.category.id)
     sources = Source.objects.all().exclude(id = expense.source.id)
 
@@ -193,9 +196,11 @@ def edit_expense(request,id):
         'sources': sources,  
     }
     
+    # render edit expense template
     if request.method == 'GET':
         return render(request,'expense/edit_expense.html',context)
 
+    # store the form input values on post request
     if request.method == 'POST':
         amount = request.POST.get('amount','')
         description = request.POST.get('description','')
@@ -203,6 +208,7 @@ def edit_expense(request,id):
         source = request.POST.get('source','')
         date = request.POST.get('expense_date','')
         
+        # display an error message if the input value is empty
         if amount== '':
             messages.error(request,'Amount cannot be empty')
             return render(request,'expense/edit_expense.html',context)
@@ -224,12 +230,19 @@ def edit_expense(request,id):
             messages.error(request,'Expense Account cannot be empty')
             return render(request,'expense/edit_expense.html',context)
         
+        # store the current localtime if date field is empty
         if date == '':
             date = localtime()
         
+        # store the expense creation date and time
         created_at = datetime.datetime.now().strftime ("%Y-%m-%d %H:%M:%S")
+
+        # get the category object for selected category name 
         category_obj = Category.objects.get(name =category)
+        # get the source object for selected source/account name
         source_obj = Source.objects.get(source=source)
+
+        # store the input values to the expense object and save
         expense.amount = amount
         expense.date = date
         expense.category = category_obj
@@ -238,6 +251,8 @@ def edit_expense(request,id):
         expense.created_at = created_at
         expense.save() 
         
+
+        # return redirect to expense page
         messages.success(request,'Expense Updated Successfully')
         return redirect('expense_page')
 
