@@ -32,6 +32,7 @@ def income_page(request):
         user=request.user
     ).order_by('-date')
 
+    # add pagination to the page
     try:
 
         if 'date_from' in request.GET and request.GET['date_from'] != '':
@@ -96,15 +97,19 @@ def add_income(request):
             'values':request.POST
     	}
 
+        # render add income page if method is get
         if request.method == 'GET':
             return render(request,'income/add_income.html',context)
         
+        # for method is post request
         if request.method == 'POST':
             amount = request.POST.get('amount','')
             description = request.POST.get('description','')
             source = request.POST.get('source','')
             date = request.POST.get('income_date','')
             
+
+            # store input values and check empty values
             if amount == '':
                 messages.error(request,'Amount cannot be empty')
                 return render(request,'income/add_income.html',context)
@@ -137,6 +142,7 @@ def add_income(request):
                 created_at= created_at,
             ).save()
 
+            # income object created and saved
             messages.success(request,'Income Saved Successfully')
             return redirect('income')
     else:
@@ -158,9 +164,11 @@ def add_income_source(request):
         'create':True
     }
 
+    # if method is get render the income source import template
     if request.method == 'GET': 
         return render(request,'income/income_source_import.html',context)
     
+    # for post request
     if request.method == 'POST':
         source = request.POST.get('source','')
         
@@ -173,9 +181,11 @@ def add_income_source(request):
             messages.error(request,f'Income Source ({source}) already exists.')
             return render(request,'income/income_source_import.html',context)
         
+        # store values and create the source object
         date = datetime.datetime.now().strftime ("%Y-%m-%d %H:%M:%S")
         Source.objects.create(user=request.user,source = source,created_at = date).save()
         
+        # success message
         messages.success(request,'IncomeSource added')
         return render(request,'income/income_source_import.html',{
             'sources' : sources,
@@ -204,9 +214,11 @@ def edit_income_source(request,id):
         'id':source_obj.id
     }
 
+    # get the source object instance created by the requested user and render below page
     if request.method == 'GET': 
         return render(request,'income/income_source_import.html',context)
     
+    # if method is post
     if request.method == 'POST':
         source = request.POST.get('source','')
         
@@ -216,6 +228,7 @@ def edit_income_source(request,id):
             'id':source_obj.id
         }
 
+    # check empty fields
         if source == '':
             messages.error(request,'Income Source cannot be empty')
             return render(request,'income/income_source_import.html',context)
@@ -225,6 +238,7 @@ def edit_income_source(request,id):
             messages.error(request,f'Income Source ({source}) already exists.')
             return render(request,'income/income_source_import.html',context)
         
+        # create source object and save
         source_obj.source = source
         source_obj.save()
         
@@ -240,10 +254,12 @@ def delete_income_source(request,id):
     if Source.objects.filter(pk=id,user=request.user).exists():
         income_source = Source.objects.get(pk=id,user=request.user)
         
+        # after getting the source id and check the user
         if income_source.user != request.user:
             messages.error(request,'You cannot delete this income source.')
             return redirect('add_income_source')
         
+        # If source.user is requested user then delete the source
         else:
             income_source.delete()
             messages.success(request,'Deleted income source')
@@ -259,6 +275,7 @@ def delete_income_source(request,id):
 @login_required(login_url='login')
 def edit_income(request,id):
     
+    # get the income object instance for requested user
     if Income.objects.filter(id=id,user=request.user).exists():
         income = Income.objects.get(id=id,user=request.user)
     
@@ -278,15 +295,18 @@ def edit_income(request,id):
         'sources':sources
     }
     
+    # render edit income template
     if request.method == 'GET':
         return render(request,'income/edit_income.html',context)
 
+    # if method is post
     if request.method == 'POST':
         amount = request.POST.get('amount','')
         description = request.POST.get('description','')
         source = request.POST.get('source','')
         date = request.POST.get('income_date','')
         
+        # store all input values and check empty fields
         if amount== '':
             messages.error(request,'Amount cannot be empty')
             return render(request,'income/edit_income.html',context)
@@ -307,8 +327,10 @@ def edit_income(request,id):
         if date == '':
             date = localtime()
 
+        # get the date instance of income creation
         created_at = datetime.datetime.now().strftime ("%Y-%m-%d %H:%M:%S")
         
+        # store the income object and save
         income_obj = Source.objects.get(user=request.user,source=source)
         income.amount = amount
         income.date = date
@@ -333,6 +355,7 @@ def delete_income(request,id):
             messages.error(request,'Something Went Wrong')
             return redirect('income')
         
+        # if the income id and user matches then delete the user
         else:
             income.delete()
             messages.success(request,'Income Deleted Successfully')
