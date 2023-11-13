@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Admin Sign In{% endblock %}
 {% block content %}
-
+<!-- extends user/base.html  -->
 
 <section class="text-center text-lg-start">
     <style>
@@ -44,8 +44,11 @@
             <div class="card-body p-5 shadow-5 text-center">
             <h2 class="fw-bold mb-5">Admin Sign In</h2>
             {% include "../partials/_messages.html" %}
+            <!-- add message pop -->
+              <!-- Admin login form -->
             <form action="{% url 'admin_login' %}" id="StudentSignIn" method="POST">
                 {% csrf_token %}
+                  <!-- cross site request forgery -->
                 <div class="form-outline mb-4">
                   <label for="student_username">Username</label>
                   <label id="email_msg" class="err_msg"></label>

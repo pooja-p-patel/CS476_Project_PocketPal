@@ -33,6 +33,7 @@
       outline: none;
     }
   </style>
+  <!-- nav bar -->
   {% include "partials/_sideNav2.html" %}
   
   <section class="text-center text-lg-start">
@@ -75,6 +76,7 @@
             <div class="col-9">
               <p class="fs-4 text-start">Account management</p>
             </div>
+            <!-- if one wants to create a source -->
             {% if create %}
             <div class="col-3">
               <div class="d-flex justify-content-end">
@@ -84,6 +86,7 @@
             </div>
             {% endif %}
           </div>
+          <!-- if sources exist show them in table -->
           {% if create %}
             <div class="col-12">
             <h6 class="h3 mb-3 text-center text-danger">Please Note: Deleting Source will also delete the incomes which are linked with these sources</h6>
@@ -110,12 +113,15 @@
                 </tbody>
               </table>
               </div>
+              <!-- else no sources exist -->
             {% else %}
               <div class="text-center text-danger mt-4">No Sources. Please Add Sources</div>
             {% endif %}
             </div>
         {% endif %}
         </div>
+
+        <!-- to create source -->
         {% if create %}
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
@@ -125,6 +131,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
+                <!-- add income source form -->
                 <form action="{% url 'add_income_source' %}" id="Accounts" method="POST">
                   {% csrf_token %}
                   <!-- cross site request forgery -->
@@ -143,6 +150,7 @@
         {% endif %}
         {% if update %}
         <div>
+          <!-- edit income source form -->
           <form action="{% url 'edit_income_source' id %}" id="Accounts" method="POST">
             {% csrf_token %}
                   <!-- cross site request forgery -->

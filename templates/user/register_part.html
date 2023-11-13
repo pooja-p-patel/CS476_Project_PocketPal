@@ -43,8 +43,12 @@
             <div class="card-body p-5 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Student Sign Up</h2>
               {% include "../partials/_messages.html" %}
-              <form id="StudentSignIn" action="{% url 'register' %}" method="POST">
+              <!-- messages display -->
+
+              <!-- Student Sign up form -->
+              <form id="StudentSignUp" action="{% url 'register' %}" method="POST">
                   {% csrf_token %}
+                  <!-- cross site request forgery -->
                 <div class="row">
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">

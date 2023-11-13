@@ -64,6 +64,7 @@
             <p>If you would like to receive advice from an advisor, please click the button to opt-in</p>
           </div>
         </div>
+        <!-- if flag is not created and true then show the button -->
         {% if not flag %}
         <form action="{% url 'ask_advice' %}" method="POST">
                   <!-- cross site request forgery -->
@@ -81,6 +82,8 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
 </body>
+
+<!-- javascript to disable the button once clicked -->
 <script type="text/javascript">
   function buttonidDisable(btn){
     document.getElementById(btn.id).remove = true;

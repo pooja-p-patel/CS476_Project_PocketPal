@@ -1,5 +1,7 @@
 {% load static %}
 
+<!-- Student Nav bar -->
+
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'dashboard' %}"><img src="{% static 'image/LOGO.png' %}" alt="PocketPal" width="60" height="40"></a>
@@ -55,6 +57,7 @@
               <li>
                 <form action="{% url 'logout' %}" method="POST">
                   {% csrf_token %}
+                  <!-- cross site request forgery -->
                   <button class="dropdown-item" type="submit" >Sign out</button>
               </form>
               </li>

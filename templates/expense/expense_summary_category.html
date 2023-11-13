@@ -89,6 +89,7 @@
           </div>
          </div> 
          <div class="form-group" style="padding-bottom: 20px;">
+          <!-- form to show expense table view categorizing category -->
           <form id="task-form" method="POST">
             {% csrf_token %}
                   <!-- cross site request forgery -->
@@ -146,7 +147,9 @@
 </body>
 
   <script src="{% static 'js/expense_summary.js' %}"></script>
+  <!-- js -->
 
+  <!-- ajax -->
   <script type="text/javascript">
   $(document).on('submit', '#task-form',function(e){
     event.preventDefault();

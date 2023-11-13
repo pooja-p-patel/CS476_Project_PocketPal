@@ -1,6 +1,7 @@
 {% extends "advisor/comment.html" %}
 {% block title %}Edit Comment{% endblock %}
 {% block content %}
+<!-- extends advisor/comment.html-->
 
 <div class="container py-4">
   <div class="row g-0 align-items-center">
@@ -12,9 +13,11 @@
           </div>
         </div>
           <div>
+            <!-- edit form -->
             <form action="{% url 'edit_comment' comment.id %}" method="POST">
               {% csrf_token %}
                   <!-- cross site request forgery -->
+                  <!-- auto populate the values for the comment instance -->
               <div class="form-outline mb-4">
                 <label for="acc_name">Comment Title</label>
                 <input type = "text" name="name" value = "{{values.name}}" id="acc_name" class="form-control" required />

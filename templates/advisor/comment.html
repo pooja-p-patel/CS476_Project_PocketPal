@@ -32,6 +32,7 @@
       outline: none;
     }
   </style>
+  <!-- include nav bar -->
   {% include "partials/_sideAdminNav.html" %}
   
   <section class="text-center text-lg-start">
@@ -77,6 +78,7 @@
               <p class="fs-4 text-start">Comments</p>
             </div>
           </div>
+          <!-- if comments exist -->
           {% if comments %}
           <div class="row align-items-center py-4">
           <h5 class="h3 text-black mb-0 text-center">Comments - <span id="income_count">{{ comments.count }}</span></h5>
@@ -95,6 +97,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- for comments in the page -->
                   {% for comment in page_comments %}
                   <tr>
                     <th scope="row">{{comment.student_name}}</th>
@@ -115,6 +118,7 @@
           <p class="h12 text-primary"><small>* Navigate to Admin dashboard to add more comments for requested user. </small></p>
           
 
+          <!-- pagination front end logic -->
           <div class="pagination-container">
             <div class="row">
               <div class="col-md-6"><p></p><span class="text-white">Showing page {{page_comments.number}} of {{ page_comments.paginator.num_pages }}</span></div>

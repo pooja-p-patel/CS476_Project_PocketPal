@@ -83,6 +83,7 @@
               </div>
             </div>
           </div>
+          <!-- if incomes exist -->
           {% if incomes %}
           <div class="row align-items-center py-4">
           <h5 class="h3 text-black mb-0 text-center">My Incomes - <span id="income_count">{{ incomes.count }}</span></h5>
@@ -115,10 +116,12 @@
               </table>
             </div>
           </div>
+          <!-- else incomes doesnt exist -->
           {% else %}
           <h5 class="h3 text-black mb-0 text-center">No income added yet. Add <a href="{% url 'add_income' %}">one</a></h5>
           {% endif %}
 
+          <!-- pagination -->
           <div class="pagination-container">
             <div class="row">
               <div class="col-md-6"><p></p><span class="text-white">Showing page {{page_incomes.number}} of {{ page_incomes.paginator.num_pages }}</span></div>

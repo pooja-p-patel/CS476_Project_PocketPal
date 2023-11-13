@@ -39,6 +39,7 @@
           <div class="col-9">
             <p class="fs-4 text-start">Advisor Comments</p>
             <div class="header">
+              <!-- if zero comments -->
               {% if comments == 0 %}
               <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'image/ContactUs.png' %}" alt="Card image cap">
@@ -48,6 +49,7 @@
                 </div>
             </div>
               
+            <!-- if one comment -->
               {% elif comments == 1 %}
               <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{% static 'image/ContactUs.png' %}" alt="Card image cap">
@@ -57,8 +59,10 @@
                 </div>
             </div>
             
+            <!-- if multiple comments -->
             {% else %}
             <div class="row">
+              <!-- Show comments -->
             {% for comment in comments %}
             <div class="col-sm-4 flex-wrap">
             <div class="card mx-auto" style="width: 18rem;">

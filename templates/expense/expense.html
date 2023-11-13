@@ -83,6 +83,7 @@
               </div>
             </div>
           </div>
+          <!-- show expenses -->
           {% if expenses %}
           <div class="row align-items-center py-4">
             <h5 class="h3 text-black mb-0 text-center">My Expenses - <span id="income_count">{{ expenses.count }}</span></h5>
@@ -121,6 +122,7 @@
           <h5 class="h3 text-black mb-0 text-center">No expenses. Create <a href="{% url 'add_expense' %}">one</a></h5>
           {% endif %}
 
+          <!-- pagination -->
           <div class="pagination-container">
             <div class="row">
               <div class="col-md-6"><p></p><span class="text-white">Showing page {{page_expenses.number}} of {{ page_expenses.paginator.num_pages }}</span></div>
