@@ -258,30 +258,39 @@ def edit_expense(request,id):
 
 
 
+# function to delete expense
 # login required
 @login_required(login_url='login')
 def delete_expense(request,id):
     
+    # get the expense object id for the expense object wanting to delete
     if Expense.objects.filter(id=id,user=request.user).exists():
         expense = Expense.objects.get(id=id,user=request.user)
         
+        # if user is not the expense.user then display an error message
         if expense.user != request.user:
             messages.error(request,'Something Went Wrong')
             return redirect('expense_page')
         
+        # delete the expense
         else:
             expense.delete()
             messages.success(request,'Expense Deleted Successfully')
             return redirect('expense_page')
+        
+    # return to expense page view 
     else:
         messages.error(request,'Something went Wrong. Please Try Again')
         return redirect('expense_page')
 
 
 
+# function to display expense summary categorizing the source/account
 # login required
 @login_required(login_url='login')
 def expense_summary(request):
+
+    # collect all the object instances
     expenses = Expense.objects.filter(user = request.user)
     sources = Source.objects.filter(user = request.user)
     category = Category.objects.all()
@@ -292,13 +301,18 @@ def expense_summary(request):
         'category' : category,
     }
 
+    # render the expense_summary page
     if request.method == 'GET':
         return render(request, 'expense/expense_summary.html', context)
     
+    # if method is post
     if request.method == 'POST':
+
+        # get the source id for selected source
         id = request.POST.get('source')
         source_all = Source.objects.get(id = id)
 
+        # show all the expenses for that particular source
         if Expense.objects.filter(source = source_all, user = request.user).exists():
             expenses = Expense.objects.filter(source = source_all)
 
@@ -309,24 +323,30 @@ def expense_summary(request):
                 'sources' : sources,
             }
 
+            # render the expense_summary page view after successful message
             messages.success(request, "Filtered table for " + source_all.source + " is displayed: ")
             return render(request, 'expense/expense_summary.html', context)
         
         else:
+            # get all the source values created by the user
             sources = Source.objects.filter(user = request.user)
             
             context = {
                 'sources' : sources,
             }
 
+            # render template and display message of no expenses found
             messages.success(request, "No expenses found for this account/source")
             return render(request, 'expense/expense_summary.html', context)
 
 
 
+# function to display expense summary categorizing the category
 # login required
 @login_required(login_url='login')
 def expense_summary_category(request):
+
+    # get all the expenses by user and show all categories
     expenses = Expense.objects.filter(user = request.user)
     categories = Category.objects.all()
 
@@ -335,13 +355,18 @@ def expense_summary_category(request):
         'categories' : categories,
     }
 
+    # render expense_summary page
     if request.method == 'GET':
         return render(request, 'expense/expense_summary_category.html', context)
     
+    # if method is post
     if request.method == 'POST':
+
+        # get id of the category selected
         id = request.POST.get('category')
         category_all = Category.objects.get(id = id)
 
+        # get the expenes of the objects having the selected category
         if Expense.objects.filter(category = category_all, user = request.user).exists():
             expenses = Expense.objects.filter(category = category_all)
 
@@ -352,6 +377,7 @@ def expense_summary_category(request):
                 'categories' : categories,
             }
 
+            # update the table
             messages.success(request, "Filtered table for " + category_all.name + " is displayed: ")
             return render(request, 'expense/expense_summary_category.html', context)
         
@@ -362,5 +388,6 @@ def expense_summary_category(request):
                 'categories' : categories,
             }
 
+            #  render expense summary for category template 
             messages.success(request, "No expenses found for this category ")
             return render(request, 'expense/expense_summary_category.html', context)
