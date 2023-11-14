@@ -1,0 +1,41 @@
+{% load static %}
+
+<!-- Admin nav bar -->
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'advisor_dashboard' %}"><img src="{% static 'image/LOGO.png' %}"
+        alt="PocketPal" width="60" height="40"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="{% url 'advisor_dashboard' %}" class="nav-link link-dark">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="{%url 'comment'%}" class="nav-link">View Comments</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'image/walletbg.png' %}" width="37">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu">
+            <li>
+              <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <!-- cross site request forgery -->
+                <button class="dropdown-item" type="submit">Sign out</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="mr-5 ml-5">
+  <div class="mr-5 ml-5">{% include "partials/_messages.html" %}</div>
+</div>

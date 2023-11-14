@@ -1,0 +1,86 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block title %}Student Sign In{% endblock %}
+{% block content %}
+
+<!-- extends user/base.html-->
+
+<!-- student sign in page -->
+<section class="text-center text-lg-start">
+  <style>
+    .cascading-right {
+      margin-right: -50px;
+    }
+
+    @media (max-width: 991.98px) {
+      .cascading-right {
+        margin-right: 0;
+      }
+    }
+
+    .btn-sub {
+      background-color: #451952;
+      color: #ffffff;
+      border: 1px solid #451952;
+      width: 100%;
+    }
+
+    .btn-sub:hover {
+      background-color: #742c8a;
+      color: #ffffff;
+      border: 1px solid #742c8a;
+    }
+
+    .btn-sub.btn-primary:active {
+      background-color: #742c8a;
+      color: #ffffff;
+      border: 1px solid #742c8a;
+    }
+
+    a:active {
+      color: #451952;
+    }
+
+    a:visited {
+      color: #451952;
+    }
+  </style>
+  <div class="container py-4">
+    <div class="row g-0 align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="card cascading-right" style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+          <div class="card-body p-5 shadow-5 text-center">
+            <h2 class="fw-bold mb-5">Student Sign In</h2>
+            {% include "../partials/_messages.html" %}
+            <!-- message display -->
+            <!-- student sign in form -->
+            <form action="{% url 'login' %}" id="StudentSignIn" method="POST">
+              {% csrf_token %}
+              <!-- cross site request forgery -->
+              <div class="form-outline mb-4">
+                <label for="student_username">Username</label>
+                <label id="email_msg" class="err_msg"></label>
+                <input type="text" id="student_username" class="form-control" placeholder="Enter username"
+                  name="username" value="{{username}}" required />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="student_pswd">Password</label>
+                <input type="password" id="student_pswd" class="form-control" name="password"
+                  placeholder="Enter password required" />
+              </div>
+              <button type="submit" value="Sign in" class="btn btn-primary btn-block mb-4 btn-sub">Sign in</button>
+              <div class="text-center">
+                <p>Don't have an account? <a href="{% url 'register' %}"> Sign Up </a></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <img src="{% static 'image/Forms.png' %}" class="w-100 rounded-4 shadow-4" height="600" alt="Form" />
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Content Block Ends -->
+{% endblock %}

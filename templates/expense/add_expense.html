@@ -1,0 +1,65 @@
+{% extends "expense/expense.html" %}
+{% block title %}Add Expense{% endblock %}
+{% block content %}
+<!-- extends expense/expense.html -->
+
+<div class="container py-4">
+  <div class="row g-0 align-items-center">
+    <div class="card cascading-right"
+      style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+      <div class="row">
+        <div class="col-9">
+          <!-- Title for the Add Expenses page -->
+          <p class="fs-4 text-start">Add Expenses</p>
+        </div>
+      </div>
+
+      <div>
+        <!-- add expense form -->
+        <form action="{% url 'add_expense' %}" id="Accounts" method="POST">
+          {% csrf_token %}
+          <!-- cross site request forgery -->
+          <div class="form-outline mb-4">
+            <label for="acc_name">Amount</label>
+            <input type="number" name="amount" value="{{ values.amount }}" id="acc_name" class="form-control"
+              required />
+          </div>
+          <div class="form-outline mb-4">
+            <label for="acc_desc">Description</label>
+            <input type="text" id="acc_desc" class="form-control" name="description" value="{{ values.description }}"
+              required />
+          </div>
+          <div class="form-outline mb-4">
+            <label for="">Category</label>
+            <!-- Loop through categories and display as options -->
+            <select class="form-select" id="accountSelect1" name="category">
+              <option selected value="select" disabled>Select a category</option>
+              {% for category in categories %}
+              <option name="category" value="{{category.name}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-outline mb-4">
+            <label for="">Classify Accounts</label>
+            <!-- Loop through sources and display as options -->
+            <select class="form-select" id="SourceSelect" name="source">
+              <option selected value="select" disabled>Select an account</option>
+              {% for source in sources %}
+              <option name="source" value="{{source.source}}">{{source.source}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group form-outline mb-4">
+            <label for="acc_date">Data of Expense:</label>
+            <input type="date" id="acc_date" class="form-control" name="expense_date">
+          </div>
+          <div class="form-outline mb-4 modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary btn-sub">Add Expense</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content Block Ends -->
+{% endblock %}

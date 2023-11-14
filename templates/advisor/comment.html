@@ -1,0 +1,183 @@
+<!-- loaded static file -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %} Advisor/Admin Comments {% endblock %}</title>
+  <link rel="shortcut icon" href="{% static 'image/walletbg.png' %}">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+  <!-- Internal styles for dropdown menu-->
+  <style>
+    /* For active state of dropdown menu */
+    .dropdown-menu:active {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    /* For active state of dropdown item */
+    .dropdown-item:active {
+      background-color: #f0f0f0;
+      color: #000;
+    }
+
+    /* Remove outline when dropdown item is focused */
+    .dropdown-item:focus {
+      outline: none;
+    }
+
+    /* Remove outline when dropdown toggle is active */
+    .dropdown-toggle:active {
+      outline: none;
+    }
+  </style>
+  <!-- include nav bar -->
+  {% include "partials/_sideAdminNav.html" %}
+
+  <section class="text-center text-lg-start">
+    <style>
+      /* Button with a clear background */
+      .btn-clear {
+        background-color: #f8f9fa;
+        color: #000;
+        border: 1px solid #f8f9fa;
+      }
+
+      /* Button with a clear background */
+      .btn-edit {
+        background-color: transparent;
+        color: #000;
+        border: transparent;
+      }
+
+      /* Style for the submit button */
+      .btn-sub {
+        background-color: #451952;
+        color: #ffffff;
+        border: 1px solid #451952;
+        width: 100%;
+      }
+
+      /* Style for the submit button when user hovers over it*/
+      .btn-sub:hover {
+        background-color: #742c8a;
+        color: #ffffff;
+        border: 1px solid #742c8a;
+      }
+
+      /* Style for the submit button when when active (clicked)*/
+      .btn-sub.btn-primary:active {
+        background-color: #742c8a;
+        color: #ffffff;
+        border: 1px solid #742c8a;
+      }
+    </style>
+    {% block content %}
+    <div class="container py-4">
+      <div class="row g-0 align-items-center">
+        <div class="card cascading-right"
+          style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+          <div class="row">
+            <div class="col-9">
+              <p class="fs-4 text-start">Comments</p>
+            </div>
+          </div>
+          <!-- if comments exist -->
+          {% if comments %}
+          <div class="row align-items-center py-4">
+            <!-- Display the number of comments -->
+            <h5 class="h3 text-black mb-0 text-center">Comments - <span id="income_count">{{ comments.count }}</span>
+            </h5>
+          </div>
+          <!-- Display comments in a table -->
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <!-- Table headers -->
+                  <tr class="table-light">
+                    <th scope="col">User</th>
+                    <th scope="col">Advice Title</th>
+                    <th scope="col">Advice Description</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Edit Action</th>
+                    <th scope="col">Delete Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Loop through comments and display in the table -->
+                  <!-- for comments in the page -->
+                  {% for comment in page_comments %}
+                  <tr>
+                    <th scope="row">{{comment.student_name}}</th>
+                    <td>{{comment.name | truncatechars:20 }}</td>
+                    <td>{{comment.body | truncatechars:30 }}</td>
+                    <td>{{comment.created_on}}</td>
+                    <td><a href="{% url 'edit_comment' comment.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% else %}
+          <!-- Display message when no comments are available -->
+          <h5 class="h3 text-black mb-0 text-center mb-4">No Comments adviced yet.</h5>
+          {% endif %}
+          <p class="h12 text-primary"><small>* Navigate to Admin dashboard to add more comments for requested user.
+            </small></p>
+
+
+          <!-- pagination front end logic -->
+          <div class="pagination-container">
+            <div class="row">
+              <div class="col-md-6">
+                <p></p><span class="text-white">Showing page {{page_comments.number}} of {{
+                  page_comments.paginator.num_pages }}</span>
+              </div>
+              <div class="col-md-6">
+                <!-- Display page information -->
+                <ul class="pagination align-right float-right mr-auto">
+                  {% if page_comments.has_previous %}
+                  <a class="btn btn-outline-default mb-4" href="{{base_url}}page=1">First</a>
+                  <a class="btn btn-outline-default mb-4"
+                    href="{{base_url}}page={{ page_comments.previous_page_number }}">Previous</a>
+                  {% endif %}
+                  {% for num in page_expenses.paginator.page_range %}
+                  {% if page_expenses.number == num %}
+                  <a class="btn btn-default mb-4" href="{{base_url}}page={{ num }}">{{ num }}</a>
+                  {% elif num > page_expenses.number|add:'-2' and num < page_expenses.number|add:'2' %} <a
+                    class="btn btn-outline-default mb-4" href="{{base_url}}page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_expenses.has_next %}
+                    <a class="btn btn-outline-default mb-4"
+                      href="{{base_url}}page={{ page_comments.next_page_number }}">Next</a>
+                    <a class="btn btn-outline-default mb-4"
+                      href="{{base_url}}page={{ page_comments.paginator.num_pages }}">Last</a>
+                    {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content Block Ends -->
+      {% endblock %}
+  </section>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

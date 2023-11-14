@@ -1,0 +1,61 @@
+{% extends "income/income.html" %}
+{% block title %}Edit Income{% endblock %}
+{% block content %}
+<!-- extends income/income.html -->
+
+<div class="container py-4">
+  <div class="row g-0 align-items-center">
+    <div class="card cascading-right"
+      style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+      <div class="row">
+        <div class="col-9">
+          <!-- Heading for the Edit Income page -->
+          <p class="fs-4 text-start">Edit Income</p>
+        </div>
+      </div>
+      <div>
+        <!-- edit income form -->
+        <form action="{% url 'edit_income' income.id %}" method="POST">
+          {% csrf_token %}
+          <!-- cross site request forgery -->
+          <!-- Form input for the income amount -->
+          <div class="form-outline mb-4">
+            <label for="acc_name">Amount</label>
+            <input type="number" name="amount" value="{{ values.amount }}" id="acc_name" class="form-control"
+              required />
+          </div>
+          <!-- Form input for the income description -->
+          <div class="form-outline mb-4">
+            <label for="acc_desc">Description</label>
+            <input type="text" id="acc_desc" class="form-control" name="description" value="{{ values.description }}"
+              required />
+          </div>
+          <!-- Form select for the income source -->
+          <div class="form-outline mb-4">
+            <label for="">Source</label>
+            <select class="form-select" id="accountSelect1" name="source">
+              <option selected name="source" value="{{values.source.source}}">{{values.source.source}}</option>
+              <!-- Option for the selected source, populated from the context -->
+              {% for source in sources %}
+              <!-- Loop through sources to populate options -->
+              <option name="source" value="{{source.source}}">{{source.source}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <!-- Form input for the income date -->
+          <div class="form-group form-outline mb-4">
+            <label for="acc_date">Data of Expense:</label>
+            <input type="date" id="acc_date" class="form-control" name="income_date"
+              value="{{values.date |date:'Y-m-d' }}">
+          </div>
+          <!-- Form submit button -->
+          <div class="form-outline mb-3 modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary btn-sub">Update Income</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content Block Ends -->
+{% endblock %}

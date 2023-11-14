@@ -1,0 +1,67 @@
+{% extends "expense/expense.html" %}
+{% block title %}Edit Expense{% endblock %}
+{% block content %}
+<!-- extends expense/expense.html -->
+
+<div class="container py-4">
+  <div class="row g-0 align-items-center">
+    <div class="card cascading-right"
+      style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+      <div class="row">
+        <div class="col-9">
+          <!-- Title for the Edit Expenses page -->
+          <p class="fs-4 text-start">Edit Expenses</p>
+        </div>
+      </div>
+      <div>
+        <!-- edit expense form -->
+        <form action="{% url 'edit_expense' expense.id %}" method="POST">
+          {% csrf_token %}
+          <div class="form-outline mb-4">
+            <label for="acc_name">Amount</label>
+            <input type="number" name="amount" value="{{ values.amount }}" id="acc_name" class="form-control"
+              required />
+          </div>
+          <div class="form-outline mb-4">
+            <label for="acc_desc">Description</label>
+            <input type="text" id="acc_desc" class="form-control" name="description" value="{{ values.description }}"
+              required />
+          </div>
+          <div class="form-outline mb-4">
+            <label for="">Category</label>
+            <select class="form-select" id="accountSelect1" name="category">
+              <!-- Display the current category as the default option -->
+              <option selected name="category" value="{{values.category.name}}">{{values.category.name}}</option>
+              <!-- Loop through categories and display as options -->
+              {% for category in categories %}
+              <option name="category" value="{{category.name}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-outline mb-4">
+            <label for="">Classify Accounts</label>
+            <select class="form-select" id="SourceSelect" name="source">
+              <!-- Display the current source as the default option -->
+              <option selected name="source" value="{{values.source.source}}">{{values.source.source}}</option>
+               <!-- Loop through sources and display as options -->
+              {% for source in sources %}
+              <option name="source" value="{{source.source}}">{{source.source}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group form-outline mb-4">
+            <!-- Display the current date as the default value -->
+            <label for="acc_date">Data of Expense:</label>
+            <input type="date" id="acc_date" class="form-control" name="expense_date"
+              value="{{values.date |date:'Y-m-d' }}">
+          </div>
+          <div class="form-outline mb-4 modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary btn-sub">Update Expense</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content Block Ends -->
+{% endblock %}

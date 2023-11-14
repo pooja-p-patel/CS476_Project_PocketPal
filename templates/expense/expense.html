@@ -1,0 +1,200 @@
+<!-- loaded static file -->\
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %} Expenses {% endblock %}</title>
+  <link rel="shortcut icon" href="{% static 'image/walletbg.png' %}">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+  <!-- Internal styles for dropdown menu-->
+  <style>
+    /* For active state of dropdown menu */
+    .dropdown-menu:active {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    /* For active state of dropdown item */
+    .dropdown-item:active {
+      background-color: #f0f0f0;
+      color: #000;
+    }
+
+    /* Remove outline when dropdown item is focused */
+    .dropdown-item:focus {
+      outline: none;
+    }
+
+    /* Remove outline when dropdown toggle is active */
+    .dropdown-toggle:active {
+      outline: none;
+    }
+  </style>
+  <!-- nav bar -->
+  {% include "partials/_sideNav2.html" %}
+
+  <section class="text-center text-lg-start">
+    <style>
+      /* Clear button style */
+      .btn-clear {
+        background-color: #f8f9fa;
+        color: #000;
+        border: 1px solid #f8f9fa;
+      }
+
+      /* Edit button style */
+      .btn-edit {
+        background-color: transparent;
+        color: #000;
+        border: transparent;
+      }
+
+      /* Submit button style */
+      .btn-sub {
+        background-color: #451952;
+        color: #ffffff;
+        border: 1px solid #451952;
+        width: 100%;
+      }
+
+      /* Hover effect for submit button */
+      .btn-sub:hover {
+        background-color: #742c8a;
+        color: #ffffff;
+        border: 1px solid #742c8a;
+      }
+
+      /* Active state style for submit button */
+      .btn-sub.btn-primary:active {
+        background-color: #742c8a;
+        color: #ffffff;
+        border: 1px solid #742c8a;
+      }
+    </style>
+    <!-- Main content section -->
+    {% block content %}
+    <div class="container py-4">
+      <div class="row g-0 align-items-center">
+        <div class="card cascading-right"
+          style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+          <div class="row">
+            <div class="col-9">
+              <!-- Heading for the expenses report -->
+              <p class="fs-4 text-start">Expenses</p>
+            </div>
+            <div class="col-3">
+              <div class="d-flex justify-content-end">
+                <!-- Button to trigger the "Add Expenses" modal -->
+                <button type="button" class="btn btn-clear" data-bs-toggle="modal" data-bs-target="#exampleModal1"
+                  data-bs-whatever="@mdo"> <a href="{% url 'add_expense' %}">+ Add expenses</a></button>
+              </div>
+            </div>
+          </div>
+          <!-- show expenses -->
+          {% if expenses %}
+          <div class="row align-items-center py-4">
+            <!-- Heading for the expense count -->
+            <h5 class="h3 text-black mb-0 text-center">My Expenses - <span id="income_count">{{ expenses.count }}</span>
+            </h5>
+          </div>
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <!-- Table header -->
+                <thead>
+                  <!-- Table header columns -->
+                  <tr class="table-light">
+                    <th scope="col">Amount</th>
+                    <th scope="col">Account/Source</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Expense Dated</th>
+                    <th scope="col">Edit Action</th>
+                    <th scope="col">Delete Action</th>
+                  </tr>
+                </thead>
+                <!-- Table body for expense data -->
+                <tbody>
+                  <!-- Loop through expenses to populate table rows -->
+                  {% for expense in page_expenses %}
+                  <tr>
+                    <!-- Table cells with expense data -->
+                    <th scope="row">{{expense.amount}}</th>
+                    <td>{{expense.source.source | truncatechars:20 }}</td>
+                    <td>{{expense.category.name | truncatechars:20 }}</td>
+                    <td>{{expense.description | truncatechars:30 }}</td>
+                    <td>{{expense.date}}</td>
+                    <td><a href="{% url 'edit_expense' expense.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url 'delete_expense' expense.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Else block for when there are no expenses -->
+          {% else %}
+          <!-- Heading for no expenses with a link to add one -->
+          <h5 class="h3 text-black mb-0 text-center">No expenses. Create <a href="{% url 'add_expense' %}">one</a></h5>
+          {% endif %}
+
+          <!-- pagination -->
+          <div class="pagination-container">
+            <div class="row">
+              <div class="col-md-6">
+                <p></p><span class="text-white">Showing page {{page_expenses.number}} of {{
+                  page_expenses.paginator.num_pages }}</span>
+              </div>
+              <div class="col-md-6">
+                <!-- Empty paragraph and text to display page information -->
+                <ul class="pagination align-right float-right mr-auto">
+                  <!-- Button for the first page -->
+                  {% if page_expenses.has_previous %}
+                  <a class="btn btn-outline-default mb-4" href="{{base_url}}page=1">First</a>
+                  <!-- Button for the previous page -->
+                  <a class="btn btn-outline-default mb-4"
+                    href="{{base_url}}page={{ page_expenses.previous_page_number }}">Previous</a>
+                  {% endif %}
+                  <!-- Loop through page numbers to create pagination buttons -->
+                  {% for num in page_expenses.paginator.page_range %}
+                  {% if page_expenses.number == num %}
+                  <!-- Conditional block for the next and last page buttons -->
+                  <a class="btn btn-default mb-4" href="{{base_url}}page={{ num }}">{{ num }}</a>
+                  {% elif num > page_expenses.number|add:'-2' and num < page_expenses.number|add:'2' %} <a
+                    class="btn btn-outline-default mb-4" href="{{base_url}}page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_expenses.has_next %}
+                    <!-- Button for the next page -->
+                    <a class="btn btn-outline-default mb-4"
+                      href="{{base_url}}page={{ page_expenses.next_page_number }}">Next</a>
+                    <!-- Button for the last page -->
+                    <a class="btn btn-outline-default mb-4"
+                      href="{{base_url}}page={{ page_expenses.paginator.num_pages }}">Last</a>
+                    {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Content Block Ends -->
+    {% endblock %}
+  </section>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

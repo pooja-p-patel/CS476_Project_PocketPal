@@ -1,0 +1,45 @@
+{% extends "advisor/comment.html" %}
+{% block title %}Edit Comment{% endblock %}
+{% block content %}
+<!-- extends advisor/comment.html-->
+
+<div class="container py-4">
+  <div class="row g-0 align-items-center">
+    <div class="card cascading-right"
+      style="padding: 15px; background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+        <div class="row">
+          <div class="col-9">
+            <p class="fs-4 text-start">Edit Comment</p>
+          </div>
+        </div>
+          <div>
+            <!-- edit form -->
+            <form action="{% url 'edit_comment' comment.id %}" method="POST">
+              {% csrf_token %}
+                  <!-- cross site request forgery -->
+                  <!-- auto populate the values for the comment instance -->
+              <div class="form-outline mb-4">
+                <label for="acc_name">Comment Title</label>
+                <input type = "text" name="name" value = "{{values.name}}" id="acc_name" class="form-control" required />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="acc_desc">Advice</label>
+                <input type="text" id="acc_desc" class="form-control" name="body" value = "{{values.body}}" required />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="">Student User</label>
+                <select class="form-select" id="accountSelect1" name="requested_user">
+                  <option selected value="select" disabled>Select student</option>
+                  <option name="requested_user" value="{{values.student_name}}">{{values.student_name}}</option>
+                </select>
+              </div>
+              <div class="form-outline mb-3 modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-sub">Update Comment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Content Block Ends -->
+{% endblock %}
