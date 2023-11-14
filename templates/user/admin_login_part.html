@@ -52,7 +52,7 @@
             <h2 class="fw-bold mb-5">Admin Sign In</h2>
             {% include "../partials/_messages.html" %}
             <!-- add message pop -->
-            <!-- Admin login for -->
+            <!-- Admin login form -->
             <form action="{% url 'admin_login' %}" id="StudentSignIn" method="POST">
               {% csrf_token %}
               <!-- cross site request forgery -->
