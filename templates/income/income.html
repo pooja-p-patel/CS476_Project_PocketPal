@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-          <!-- if income exist -->
+          <!-- if incomes exist -->
           {% if incomes %}
           <div class="row align-items-center py-4">
             <h5 class="h3 text-black mb-0 text-center">My Incomes - <span id="income_count">{{ incomes.count }}</span>
@@ -135,7 +135,7 @@
               </table>
             </div>
           </div>
-          <!-- else incomes doesnt exist -->
+          <!-- else income doesnt exist -->
           {% else %}
           <h5 class="h3 text-black mb-0 text-center">No income added yet. Add <a href="{% url 'add_income' %}">one</a>
           </h5>
