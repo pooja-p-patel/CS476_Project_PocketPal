@@ -124,7 +124,7 @@
                   <label for="">Category Selection</label>
                   <!-- Options for categories -->
                   <select class="form-control form-control-sm" name="category" data-toggle="dropdown" id="category">
-                    <option value="select" disabled>Select a category</option>
+                    <option selected value="select" disabled>Select a category</option>
                     {% for category in categories %}<option name="category" id="category" value="{{category.id}}">
                       {{category.name}}</option>
                     {% endfor %}

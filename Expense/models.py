@@ -18,6 +18,7 @@ class Category(models.Model):
         verbose_name_plural = 'Expense Categories'
 
 
+# expense model
 class Expense(models.Model):
     user = models.ForeignKey(to = User,on_delete=models.CASCADE)
     amount = models.FloatField()

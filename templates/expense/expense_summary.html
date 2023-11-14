@@ -103,7 +103,7 @@
                   <select class="form-control form-control-sm" data-id="{{source.id}}" name="source"
                     data-toggle="dropdown" name="source" id="source">
                     <!-- Option for default selection -->
-                    <option value="select" disabled>Select an account</option>
+                    <option selected value="select" disabled>Select an account</option>
                     <!-- Loop through sources to create options -->
                     {% for source in sources %}<option data-id="{{source.id}}" name="source" id="source"
                       value="{{source.id}}">{{source.source}}</option>{% endfor %}

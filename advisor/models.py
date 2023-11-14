@@ -11,6 +11,7 @@ class Comment(models.Model):
     student_name = models.CharField(max_length=100)
     created_on = models.DateTimeField(default=now)
 
+# Observerlist added
 class Observer(models.Model):
     user = models.ForeignKey(to = User,on_delete=models.CASCADE)
 
